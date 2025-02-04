@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Course Management</h1>
+    <p>Manage and enroll in courses easily.</p>
+
+    @if (Context.Session.GetString("UserRole") == "Teacher")
+    {
+        <a class="btn btn-primary" href="@Url.Action("Create", "Course")">Create a Course</a>
+    }
+    else if (Context.Session.GetString("UserRole") == "Student")
+    {
+        <a class="btn btn-success" href="@Url.Action("Index", "Subscription")">View My Courses</a>
+    }
+    else
+    {
+        <a class="btn btn-outline-primary" href="@Url.Action("Register", "Account")">Get Started</a>
+    }
+</div>

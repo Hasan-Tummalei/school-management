@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CourseManagement.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Courses</h2>
+
+@if (Context.Session.GetString("UserRole") == "Teacher")
+{
+    <a href="@Url.Action("Create", "Course")">Add New Course</a>
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Teacher</th>
+            @if (Context.Session.GetString("UserRole") == "Teacher")
+            {
+                <th>Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.Title</td>
+                <td>@course.Description</td>
+                <td>@course.Teacher.Name</td>
+                @if (Context.Session.GetString("UserRole") == "Teacher" && Context.Session.GetString("UserId") == course.TeacherId.ToString())
+                {
+                    <td>
+                        <a href="@Url.Action("Edit", "Course", new { id = course.Id })">Edit</a>
+                        <form method="post" action="@Url.Action("Delete", "Course", new { id = course.Id })">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                }
+                @if (Context.Session.GetString("UserRole") == "Student")
+                {
+                    <td>
+                        <form method="post" action="@Url.Action("Subscribe", "Subscription", new { courseId = course.Id })">
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>

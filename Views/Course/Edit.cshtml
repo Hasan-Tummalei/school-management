@@ -1,0 +1,19 @@
+﻿@model CourseManagement.Models.Course
+
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<h2>Edit Course</h2>
+
+<form method="post">
+    <label>Title:</label>
+    <input type="text" name="title" value="@Model.Title" required />
+
+    <label>Description:</label>
+    <textarea name="description">@Model.Description</textarea>
+
+    <button type="submit">Save</button>
+</form>
+
+<a href="@Url.Action("Index", "Course")">Back to Courses</a>
